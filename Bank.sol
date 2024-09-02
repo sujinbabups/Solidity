@@ -47,5 +47,23 @@ contract BankContract{
         }
         return (maxAddress,maxBalance);
     }
+function deleteAccount(uint amt) public balanceCheck(amt) {
+
+    delete balanceLedger[msg.sender];
+
+   
+    for (uint i = 1; i <= count; i++) {
+        if (addressCount[i] == msg.sender) {
+           
+            addressCount[i] = addressCount[count];
+            delete addressCount[count];
+            count--;
+            break;
+        }
+    }
+
+    
+   
+}
     
 }

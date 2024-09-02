@@ -1,27 +1,27 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.23;
-contract Book{
+pragma solidity 0.8.20;
+
+contract Book {
  
     struct MyBook{
     uint   price;
     string   title;
     address  owner;
-    bool sold;
+  
 
     }
     MyBook public  b1;
     
 
     address [] public buyers;
-     
+     mapping(uint=>MyBook)public Books;
+
     
-     function setBook(string memory _title,uint _price)public  {
-        b1.title=_title;
-       b1.price=_price;
+     function setBook(uint _id,uint _price,string memory _title)public  {
+      Books[_id]=MyBook(_price,_title,msg.sender);
+      
     }
-    function getBook()public  view  returns (string memory,uint){
-        return (b1.title,b1.price);
-    }
+ 
     function toWei(uint amt)public pure returns(uint) {
          return (amt*1000000000000000000);
 
@@ -32,7 +32,7 @@ contract Book{
         //  if(toWei(price)<=msg.value){
             b1.owner=msg.sender;
             buyers.push(b1.owner);
-            b1.sold=true;
+            
             uint bal=msg.value-toWei(b1.price);
             if(bal>0){
                 payable (msg.sender).transfer(bal);
